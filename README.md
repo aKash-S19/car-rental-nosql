@@ -1,300 +1,210 @@
 # Car Rental Operations Manager
 
-A simple car rental management system with React frontend and Node.js backend.
+A comprehensive full-stack car rental management system with role-based access control for admins and customers.
 
-## Quick Start
+## 🚀 Features
 
-### 1. Install Dependencies
+### ✅ 1. User Authentication & Account Handling Module
 
-```bash
-# Install all dependencies
-npm install
-cd server && npm install
-cd ../client && npm install
-```
+This module controls how users enter the system and manage their identity. It supports new user registration, secure login, and session/token validation.
 
-### 2. Start MongoDB
+**Core Features:**
 
-```bash
-net start MongoDB
-```
+- Signup with email, phone, and password
+- Login using encrypted credentials
+- Generate authentication tokens (JWT)
+- Store user role → Customer / Admin
+- Profile update options (name, contact, license number)
+- Document verification workflow
+- Loyalty points system
 
-### 3. Run the Application
+### ✅ 2. Vehicle Management & Fleet Catalog Module
 
-```bash
-# Terminal 1 - Backend
-cd server
-npm run dev
+This module acts as the central storage for all vehicle-related information. Admins can expand or modify the fleet, while customers can view available cars.
 
-# Terminal 2 - Frontend
-cd client
-npm start
-```
+**Core Features:**
 
-### 4. Access the Application
+- Add/update/delete car entries (Admin only)
+- Store specs → brand, model, transmission, price-per-day, seating, fuel, images
+- Track car availability status (Available / Booked / Maintenance)
+- Search & filter (brand, type, price, fuel, etc.)
+- Multi-branch vehicle assignments
+- Real-time availability tracking
 
-- **Frontend**: http://localhost:3000
-- **Backend**: http://localhost:5000
+### ✅ 3. Booking & Rental Coordination Module
 
-## Features
+This module manages the entire flow of reserving a vehicle and returning it. It ensures no double-booking and maintains a clear timeline of rental events.
 
-- ✅ User Registration & Login
-- ✅ JWT Authentication
-- ✅ Password Hashing (bcrypt)
-- ✅ MongoDB Integration
-- ✅ Responsive Design
-- ✅ Role-based Access (admin, manager, employee)
+**Core Features:**
 
-## Technology Stack
+- Create new booking request
+- Check date and time availability
+- Prevent overlapping bookings
+- Admin approval workflow
+- Automatic price calculation
+- Update car status when user picks up or returns
+- Cancel or modify upcoming bookings
+- Maintain complete rental history for every user
+- Loyalty points on completion
 
-- **Frontend**: React, React Router, Axios
-- **Backend**: Node.js, Express
-- **Database**: MongoDB
-- **Authentication**: JWT + bcrypt
+### ✅ 4. Issue Reporting & Support Module
 
-## API Endpoints
+This module allows users to raise complaints or report problems related to cars or service.
 
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - User login
+**Core Features:**
 
-## Database
+- Users can report issues during or after rental
+- Attach text descriptions and set priority levels
+- Admin can view, respond, and update issue status
+- Issue status tracking (Open, In Progress, Resolved)
+- Maintain history of all reports
+- Helps improve service quality and car maintenance decisions
 
-- **MongoDB**: localhost:27017
-- **Database**: car-rental
-- **Collection**: users
+### ✅ 5. Enhanced Features
 
-## Features
+- **Notifications System** - Real-time alerts for all booking and issue events
+- **Admin Dashboard** - Comprehensive analytics with statistics and charts
+- **Audit Logging** - Track all admin actions for security monitoring
+- **Multi-Branch Support** - Manage multiple rental locations
 
-- **Landing Page**: Professional homepage showcasing system features
-- **Authentication**: User registration and login functionality
-- **Fleet Management**: Track and manage vehicle inventory
-- **Booking System**: Handle rental reservations
-- **Customer Records**: Manage customer database
-- **Payment Processing**: Handle transactions and billing
-- **Multi-Location Support**: Distributed location management
-- **Real-time Analytics**: Dashboard with insights and reports
+## 🛠️ Technology Stack
 
-## Technology Stack
+**Frontend:**
 
-### Frontend
+- React 18.2.0
+- React Router DOM 6.16.0
+- Axios 1.5.1
 
-- React 18 (JavaScript)
-- React Router DOM
-- Axios for API calls
-- CSS3 with responsive design
-- No TypeScript dependencies
+**Backend:**
 
-### Backend
+- Node.js with Express 5.1.0
+- MongoDB with Mongoose 8.18.1
+- JWT 9.0.2 for authentication
+- bcryptjs 3.0.2 for password encryption
 
-- Node.js
-- Express.js
-- MongoDB with Mongoose
-- JWT Authentication
-- bcryptjs for password hashing
-- CORS enabled
-- Express Validator
-
-## Project Structure
-
-```
-car-rental-manager/
-├── client/                 # React frontend (JavaScript)
-│   ├── public/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── LandingPage.js
-│   │   │   ├── LandingPage.css
-│   │   │   ├── Login.js
-│   │   │   ├── Signup.js
-│   │   │   └── Auth.css
-│   │   ├── App.js
-│   │   └── App.css
-│   └── package.json
-├── server/                 # Node.js backend
-│   ├── models/
-│   │   ├── User.js
-│   │   └── Car.js
-│   ├── routes/
-│   │   ├── auth.js
-│   │   ├── cars.js
-│   │   ├── bookings.js
-│   │   └── customers.js
-│   ├── index.js
-│   ├── .env
-│   ├── .env.example
-│   └── package.json
-├── package.json           # Root package.json
-├── README.md
-└── MONGODB_SETUP.md       # MongoDB setup guide
-```
-
-## Installation
+## 📦 Installation & Setup
 
 ### Prerequisites
 
 - Node.js (v14 or higher)
-- MongoDB (local or cloud instance)
-- npm or yarn
+- MongoDB (v4.4 or higher)
 
-### Setup Instructions
-
-1. **Clone the repository**
-
-   ```bash
-   git clone <repository-url>
-   cd car-rental-manager
-   ```
-
-2. **Install dependencies**
-
-   ```bash
-   # Install root dependencies
-   npm install
-
-   # Install server dependencies
-   npm run install-server
-
-   # Install client dependencies
-   npm run install-client
-   ```
-
-3. **Configure Environment Variables**
-
-   Create a `.env` file in the `server` directory:
-
-   ```env
-   NODE_ENV=development
-   PORT=5000
-   MONGODB_URI=mongodb://localhost:27017/car-rental
-   JWT_SECRET=your_jwt_secret_key_here_change_in_production
-   CLIENT_URL=http://localhost:3000
-   ```
-
-4. **Start MongoDB**
-
-   Make sure MongoDB is running on your system:
-
-   ```bash
-   # For local MongoDB installation
-   mongod
-
-   # Or use MongoDB Atlas cloud service
-   ```
-
-5. **Run the Application**
-
-   **Development Mode (both frontend and backend):**
-
-   ```bash
-   npm run dev
-   ```
-
-   **Or run separately:**
-
-   ```bash
-   # Terminal 1 - Backend
-   npm run server
-
-   # Terminal 2 - Frontend
-   npm run client
-   ```
-
-6. **Access the Application**
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:5000
-
-## API Endpoints
-
-### Authentication
-
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - User login
-
-### Cars
-
-- `GET /api/cars` - Get all cars
-- `GET /api/cars/available` - Get available cars
-
-### Bookings
-
-- `GET /api/bookings` - Get all bookings (placeholder)
-
-### Customers
-
-- `GET /api/customers` - Get all customers (placeholder)
-
-## User Roles
-
-- **Employee**: Basic access to view and create rentals
-- **Manager**: Enhanced access to manage inventory and reports
-- **Admin**: Full system access and user management
-
-## Database Schema
-
-### User Model
-
-- name (String, required)
-- email (String, required, unique)
-- password (String, required, hashed)
-- role (String, enum: admin/manager/employee)
-- phone (String)
-- isActive (Boolean)
-- timestamps
-
-### Car Model
-
-- make, model, year (required)
-- licensePlate (String, unique)
-- color, category (required)
-- dailyRate (Number)
-- status (enum: available/rented/maintenance/retired)
-- mileage, location (required)
-- features, images (arrays)
-- timestamps
-
-## Security Features
-
-- Password hashing with bcryptjs
-- JWT token authentication
-- Input validation with express-validator
-- CORS configuration
-- Environment variable protection
-
-## Development
-
-### Available Scripts
+### 1. Clone the Repository
 
 ```bash
-npm run dev          # Run both frontend and backend
-npm run server       # Run backend only
-npm run client       # Run frontend only
-npm run build        # Build frontend for production
-npm start            # Start production server
-npm run install-all  # Install all dependencies
+git clone <repository-url>
+cd aravind
 ```
 
-### Future Enhancements
+### 2. Install Dependencies
 
-- Dashboard with analytics
-- Booking management system
-- Payment integration
-- Real-time notifications
-- Mobile application
-- Advanced reporting
-- Integration with external APIs
+**Backend:**
 
-## Contributing
+```bash
+cd server
+npm install
+```
 
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+**Frontend:**
 
-## License
+```bash
+cd client
+npm install
+```
 
-MIT License - see LICENSE file for details
+### 3. Environment Configuration
 
-## Support
+Create a `.env` file in the `server` directory with the following variables:
 
-For support, email support@rentcarpro.com or create an issue in the repository.
+```env
+MONGO_URI=mongodb://localhost:27017/car_rental
+PORT=5000
+JWT_SECRET=<generate-a-strong-random-secret>
+```
+
+**Note:** Replace `<generate-a-strong-random-secret>` with a strong random string. Never commit the `.env` file to version control.
+
+### 4. Start MongoDB
+
+```bash
+# Windows
+net start MongoDB
+
+# Linux/Mac
+sudo systemctl start mongod
+```
+
+### 5. Run the Application
+
+**Terminal 1 - Backend:**
+
+```bash
+cd server
+npm run dev
+```
+
+**Terminal 2 - Frontend:**
+
+```bash
+cd client
+npm start
+```
+
+### 6. Access the Application
+
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:5000
+
+## 👥 Default Credentials
+
+You can create accounts through the signup page with roles:
+
+- **Admin** - Full system access
+- **Customer** - Booking and issue management
+
+## 📊 Database Collections
+
+- **users** - User accounts with profiles and documents
+- **cars** - Vehicle fleet catalog
+- **bookings** - Rental reservations and history
+- **issues** - Support tickets and complaints
+- **notifications** - User notification queue
+- **auditlogs** - Admin action tracking
+- **branches** - Rental location management
+
+## 🎯 Key Routes
+
+**Public Routes:**
+
+- `/` - Landing page
+- `/login` - User login
+- `/signup` - User registration
+- `/vehicles` - Browse available cars
+
+**Protected Routes:**
+
+- `/dashboard` - Role-based dashboard
+- `/book/:carId` - Book a specific vehicle
+- `/my-bookings` - View booking history
+- `/my-issues` - View reported issues
+- `/profile` - User profile management
+
+## 🔒 Security Features
+
+- JWT token-based authentication
+- Password hashing with bcrypt
+- Role-based access control
+- Audit logging for admin actions
+- Document verification workflow
+
+## 📱 Responsive Design
+
+The application is fully responsive and works on:
+
+- Desktop browsers
+- Tablets
+- Mobile devices
+
+---
+
+**Built with ❤️ for efficient car rental management**

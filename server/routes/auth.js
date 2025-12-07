@@ -6,11 +6,11 @@ const router = express.Router();
 
 // Registration
 router.post('/register', async (req, res) => {
-  const { name, email, password, phone, role } = req.body;
+  const { name, email, password, phone, role, address, driverLicense, notificationPreferences } = req.body;
   
   // Basic validation
-  if (!name || !email || !password) {
-    return res.status(400).json({ message: 'Name, email, and password are required' });
+  if (!name || !email || !password || !phone) {
+    return res.status(400).json({ message: 'Name, email, password, and phone are required' });
   }
   
   if (password.length < 6) {
@@ -24,14 +24,20 @@ router.post('/register', async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ 
+    const userData = { 
       name, 
       email, 
       password: hashedPassword,
       phone,
-      role: role || 'employee'
-    });
-    
+      role: role || 'customer'
+    };
+
+    // Add optional fields if provided
+    if (address) userData.address = address;
+    if (driverLicense) userData.driverLicense = driverLicense;
+    if (notificationPreferences) userData.notificationPreferences = notificationPreferences;
+
+    const user = new User(userData);
     await user.save();
     
     const token = jwt.sign(
@@ -47,12 +53,15 @@ router.post('/register', async (req, res) => {
         id: user._id,
         name: user.name, 
         email: user.email,
-        role: user.role
+        phone: user.phone,
+        role: user.role,
+        isVerified: user.isVerified,
+        loyaltyPoints: user.loyaltyPoints
       }
     });
   } catch (err) {
     console.error('Registration error:', err);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Server error', error: err.message });
   }
 });
 
@@ -71,10 +80,21 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
+    // Check if account is active
+    if (!user.isActive) {
+      return res.status(403).json({ message: 'Account has been deactivated. Please contact support.' });
+    }
+
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
+
+    // Update last login (skip validation since we're only updating lastLogin)
+    await User.updateOne(
+      { _id: user._id },
+      { $set: { lastLogin: new Date() } }
+    );
 
     const token = jwt.sign(
       { userId: user._id, role: user.role }, 
@@ -88,7 +108,12 @@ router.post('/login', async (req, res) => {
         id: user._id,
         name: user.name, 
         email: user.email,
-        role: user.role
+        phone: user.phone,
+        role: user.role,
+        isVerified: user.isVerified,
+        verificationStatus: user.verificationStatus,
+        loyaltyPoints: user.loyaltyPoints,
+        totalBookings: user.totalBookings
       }
     });
   } catch (err) {
