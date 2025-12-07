@@ -91,11 +91,6 @@ This module allows users to raise complaints or report problems related to cars 
 
 ### 1. Clone the Repository
 
-```bash
-git clone <repository-url>
-cd aravind
-```
-
 ### 2. Install Dependencies
 
 **Backend:**
@@ -150,12 +145,7 @@ cd client
 npm start
 ```
 
-### 6. Access the Application
-
-- Frontend: http://localhost:3000
-- Backend API: http://localhost:5000
-
-## 👥 Default Credentials
+## 👥 Users
 
 You can create accounts through the signup page with roles:
 
@@ -196,15 +186,5 @@ You can create accounts through the signup page with roles:
 - Role-based access control
 - Audit logging for admin actions
 - Document verification workflow
-
-## 📱 Responsive Design
-
-The application is fully responsive and works on:
-
-- Desktop browsers
-- Tablets
-- Mobile devices
-
----
 
 **Built with ❤️ for efficient car rental management**
